@@ -9,7 +9,7 @@ from kmk.modules.encoder import EncoderHandler
 keyboard = KMKKeyboard()
 layer = Layers()
 encoder_handler = EncoderHandler()
-keyboard.modules = [layers, modtap, encoder_handler]
+keyboard.modules = [layer, encoder_handler]
 
 #Define Cols&Rows per Nibble board
 keyboard.col_pins = (board.A3, board.A2, board.A1, board.A0)
@@ -41,10 +41,10 @@ keyboard.keymap = [
     # Standard (ISO) Layer
     [
                  KC.ESC , KC.N1  , KC.N2  , KC.N3  , KC.N4  , KC.N5  , KC.N6  , KC.N7  , KC.N8  , KC.N9  , KC.N0  , KC.MINS, KC.EQL , KC.BSPC,
-        KC_MUTE, KC.TAB , KC.Q   , KC.W   , KC.E   , KC.R   , KC.T   , KC.Y   , KC.U   , KC.I   , KC.O   , KC.P   , KC.LBRC, KC.RBRC, KC.DEL ,
+        KC.A   , KC.TAB , KC.Q   , KC.W   , KC.E   , KC.R   , KC.T   , KC.Y   , KC.U   , KC.I   , KC.O   , KC.P   , KC.LBRC, KC.RBRC, KC.DEL ,
         xxxxxxx, KC.CAPS, KC.A   , KC.S   , KC.D   , KC.F   , KC.G   , KC.H   , KC.J   , KC.K   , KC.L   , KC.SCLN, KC.QUOT, KC.NUHS, xxxxxxx,
-        TO_STD,  KC.LSFT, KC.NUBS, KC.Z   , KC.X   , KC.C   , KC.V   , KC.B   , KC.N   , KC.M   , KC.COMM, KC.DOT , KC.SLSH, KC.UP  , KC.ENT ,
-        MT_EXT,  KC.LCTL, KC.LGUI, xxxxxxx, KC.LALT, MT_EXT , xxxxxxx, KC.SPC , xxxxxxx, KC.RALT, TO_NUM , KC.RSFT, KC.LEFT, KC.DOWN, KC.RGHT,
+        KC.A  ,  KC.LSFT, KC.NUBS, KC.Z   , KC.X   , KC.C   , KC.V   , KC.B   , KC.N   , KC.M   , KC.COMM, KC.DOT , KC.SLSH, KC.UP  , KC.ENT ,
+        KC.A  ,  KC.LCTL, KC.LGUI, xxxxxxx, KC.LALT, KC.A   , xxxxxxx, KC.SPC , xxxxxxx, KC.RALT, KC.A   , KC.RSFT, KC.LEFT, KC.DOWN, KC.RGHT,
     ],
     # Extra Keys Layer
 #    [
@@ -57,8 +57,8 @@ keyboard.keymap = [
 ]
 
 
-encoder_handler.map = ( ((KC.UP, KC.DOWN, KC.MUTE),), # Standard
- #                       ((KC.VOLD, KC.VOLU, KC.MUTE),) # Extra
+encoder_handler.map = ( (KC.UP, KC.DOWN), # Standard
+ #                       (KC.VOLD, KC.VOLU) # Extra
                     )
 
 
