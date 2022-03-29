@@ -19,7 +19,7 @@ keyboard.row_pins = (board.CLK, board.MISO, board.MOSI, board.D10)
 keyboard.diode_orientation = DiodeOrientation.COL2ROW
 
 #GPIO Encoder, on Key
-encoder_handler.pins = ((board.D8, board.D9, False)
+encoder_handler.pins = ((board.D8, board.D9, False))
 
 # Filler keys
 _______ = KC.TRNS
@@ -33,7 +33,7 @@ xxxxxxx = KC.NO
 
 #REPL Tests
 print("Hello World!")
-print(dir(board))
+#print(dir(board))
 
 # Keymap
 
