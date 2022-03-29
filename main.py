@@ -38,7 +38,7 @@ print(dir(board))
 # Keymap
 
 keyboard.keymap = [
-    # Standard (ISO) Layer
+    # Standard (ISO) Layer **replaced references to layer changes with A for now, after getting one layer working**
     [
                  KC.ESC , KC.N1  , KC.N2  , KC.N3  , KC.N4  , KC.N5  , KC.N6  , KC.N7  , KC.N8  , KC.N9  , KC.N0  , KC.MINS, KC.EQL , KC.BSPC,
         KC.A   , KC.TAB , KC.Q   , KC.W   , KC.E   , KC.R   , KC.T   , KC.Y   , KC.U   , KC.I   , KC.O   , KC.P   , KC.LBRC, KC.RBRC, KC.DEL ,
