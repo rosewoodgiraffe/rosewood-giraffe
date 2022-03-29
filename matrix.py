@@ -38,6 +38,16 @@ class CustomMatrixScanner(Scanner):
         rollover_cols_every_rows=None,
         offset=0,
     ):
+        
+    # This works and gives TRUE, 
+    # without the Pull.UP line you get the below Error
+    # RuntimeError: No pull up found on SDA or SCL; check your wiring
+    # Need to figure out how to have it always pulled up? or flip
+    # pin = digitalio.DigitalInOut(board.A2)
+    # pin.pull = digitalio.Pull.UP
+    # print(pin.value)
+
+
     # This code shows how the columns are scanned
     # Try running it and it should make things a bit
     # more clear
@@ -47,12 +57,14 @@ class CustomMatrixScanner(Scanner):
         for col in range(16):
             # select the column
             for bit in range(4):
-                print(col, bit)
                 col_pin_d = digitalio.DigitalInOut(col_pins[bit])
+                # prints value here fine, although they are all False
                 print(col_pin_d.value)
+                # Without the below line, it gives error: AttributeError: Cannot set value when direction is input.
                 col_pin_d.direction = digitalio.Direction.OUTPUT
                 col_pin_d.value = ((col & (0b1 << bit)) >> bit) # This needs to be converted to a bool
-
+                # gives error: AttributeError: 'Pin' object has no attribute 'value'
+                
                 # loop through rows
             for i in range(len(row_pins)):
                 # check if pulled low
