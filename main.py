@@ -13,9 +13,9 @@ keyboard.modules = [layer, encoder_handler]
 
 #Define Cols&Rows per Nibble board
 keyboard.col_pins = (board.A3, board.A2, board.A1, board.A0)
-keyboard.row_pins = (board.CLK, board.MISO, board.MOSI, board.D10)
+keyboard.row_pins = (board.CLK, board.MISO, board.MOSI, board.D10, board.D4)
 #Do I need this? Maybe
-#rollover_cols_every_rows = 4
+#rollover_cols_every_rows = 5
 keyboard.diode_orientation = DiodeOrientation.COL2ROW
 
 #GPIO Encoder, on Key
