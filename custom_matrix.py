@@ -38,50 +38,6 @@ class CustomMatrixScanner(Scanner):
         rollover_cols_every_rows=None,
         offset=0,
     ):
-        
-    # This works and gives TRUE, 
-    # without the Pull.UP line you get the below Error
-    # RuntimeError: No pull up found on SDA or SCL; check your wiring
-    # Need to figure out how to have it always pulled up? or flip
-    # pin = digitalio.DigitalInOut(board.A2)
-    # pin.pull = digitalio.Pull.UP
-    # print(pin.value)
-
-
-    # This code shows how the columns are scanned
-    # Try running it and it should make things a bit
-    # more clear
-        col_pins = [board.A3, board.A2, board.A1, board.A0]
-        row_pins = [board.CLK, board.MISO, board.MOSI, board.D10, board.D4]
-
-        for col in range(16):
-            # select the column
-            for bit in range(4):
-                col_pin_d = digitalio.DigitalInOut(col_pins[bit])
-                # prints value here fine, although they are all False
-                print(col_pin_d.value)
-                # Without the below line, it gives error: AttributeError: Cannot set value when direction is input.
-                col_pin_d.direction = digitalio.Direction.OUTPUT
-                col_pin_d.value = ((col & (0b1 << bit)) >> bit) # This needs to be converted to a bool
-                # gives error: AttributeError: 'Pin' object has no attribute 'value'
-                
-                # loop through rows
-            for i in range(len(row_pins)):
-                # check if pulled low
-                if row_pins[i].value == False:
-                    return KeyEvent()
-
-
-
-class MatrixScanner(Scanner):
-    def __init__(
-        self,
-        cols,
-        rows,
-        diode_orientation=DiodeOrientation.COLUMNS,
-        rollover_cols_every_rows=None,
-        offset=0,
-    ):
         self.len_cols = len(cols)
         self.len_rows = len(rows)
         self.offset = offset
@@ -134,10 +90,16 @@ class MatrixScanner(Scanner):
             raise ValueError(
                 'Invalid DiodeOrientation: {}'.format(self.diode_orientation)
             )
+
+        # The column pins need to be pulled low here
+        # also set them to output
         for pin in self.outputs:
-            pin.switch_to_output()
+            pin.switch_to_output(pull=digitalio.Pull.DOWN)
+        
+        # Pull the row pins high and
+        # set them to inputs
         for pin in self.inputs:
-            pin.switch_to_input(pull=digitalio.Pull.DOWN)
+            pin.switch_to_input(pull=digitalio.Pull.UP)
 
         self.rollover_cols_every_rows = rollover_cols_every_rows
         print('line101')
@@ -156,6 +118,7 @@ class MatrixScanner(Scanner):
         '''
         ba_idx = 0
         any_changed = False
+
         for oidx, opin in enumerate(self.outputs):
             opin.value = True
 
@@ -205,3 +168,22 @@ class MatrixScanner(Scanner):
         if any_changed:
             key_number = self.len_cols * row + col + self.offset
             return KeyEvent(key_number, pressed)
+    # This code shows how the columns are scanned
+    # Try running it and it should make things a bit
+    # more clear
+        for col in range(16):
+            # select the column
+            for bit in range(4):
+                col_pin_d = digitalio.DigitalInOut(col_pins[bit])
+                # prints value here fine, although they are all False
+                print(col_pin_d.value)
+                # Without the below line, it gives error: AttributeError: Cannot set value when direction is input.
+                col_pin_d.direction = digitalio.Direction.OUTPUT
+                col_pin_d.value = ((col & (0b1 << bit)) >> bit) # This needs to be converted to a bool
+                # gives error: AttributeError: 'Pin' object has no attribute 'value'
+                
+                # loop through rows
+            for i in range(len(row_pins)):
+                # check if pulled low
+                if row_pins[i].value == False:
+                    return KeyEvent()
