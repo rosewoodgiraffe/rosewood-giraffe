@@ -5,8 +5,10 @@ from kmk.keys import KC
 from kmk.matrix import DiodeOrientation
 from kmk.modules.layers import Layers
 from kmk.modules.encoder import EncoderHandler
+from custom_matrix import CustomMatrix
 
 keyboard = KMKKeyboard()
+keyboard.matrix_scanner = CustomMatrix
 layer = Layers()
 encoder_handler = EncoderHandler()
 keyboard.modules = [layer, encoder_handler]
